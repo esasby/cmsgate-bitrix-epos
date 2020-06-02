@@ -1,0 +1,34 @@
+{
+  "name": "esas/cmsgate-bitrix-epos",
+  "description": "Bitrix payment gateway integration for EPOS (ERIP Belarus)",
+  "keywords": [
+    "cmsgate",
+    "esas",
+    "payment gateway",
+    "bitrix",
+    "epos",
+    "erip",
+    "api"
+  ],
+  "require": {
+    "php": ">= 5.6.0",
+    "esas/cmsgate-epos-lib": "~v1.10.0",
+    "esas/cmsgate-bitrix-lib": "~v1.10.0"
+  },
+  "authors": [
+    {
+      "name": "esas",
+      "email": "support@hutkigrosh.com",
+      "homepage": "https://epos.by"
+    }
+  ],
+  "config": {
+    "vendor-dir": "src/esas.epos/install/php_interface/include/sale_payment/epos/vendor"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Esas\\Hutkigrosh\\": ""
+    }
+  }
+}
