@@ -8,17 +8,16 @@ use Bitrix\Main\Error;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Request;
+use Bitrix\Main\Type\DateTime;
 use Bitrix\Sale\Payment;
 use Bitrix\Sale\PaySystem;
 use Bitrix\Sale\PaySystem\ServiceResult;
-use CSaleOrder;
-use Bitrix\Main\Type\DateTime;
 use esas\cmsgate\bitrix\CmsgateServiceHandler;
 use esas\cmsgate\epos\controllers\ControllerEposAddInvoice;
 use esas\cmsgate\epos\controllers\ControllerEposCompletionPage;
-use esas\cmsgate\epos\protocol\EposProtocol;
+use esas\cmsgate\epos\protocol\EposInvoiceGetRs;
 use esas\cmsgate\Registry;
-use esas\cmsgate\utils\Logger;
+use esas\cmsgate\utils\CMSGateException;
 use esas\epos\controllers\ControllerEposCallbackBitrix;
 use Exception;
 use Throwable;
@@ -63,30 +62,25 @@ class EposHandler extends CmsgateServiceHandler
     /**
      * @param Request $request
      * @return mixed
+     * @throws CMSGateException
      */
-    public function getPaymentIdFromRequest(Request $request)
+    public function getPaymentIdFromRequestSafe(Request $request)
     {
-        $callbackRq = EposProtocol::readCallback();
-
-        $dbOrder = CSaleOrder::GetList(
-            array("DATE_UPDATE" => "DESC"),
-            array(
-                "COMMENTS" => $callbackRq->getInvoiceId()
-            )
-        );
-        $arOrder = $dbOrder->GetNext();
+        $controller = new ControllerEposCallbackBitrix();
+        $eposInvoiceGetRs = $controller->process();
+        CMSGateException::throwIfNull($eposInvoiceGetRs, "Epos get invoice rs is null");
+        $_SESSION["epos_invoice_get_rs"] = $eposInvoiceGetRs; // для корректной работы processRequest
 
         $dbPayment = \Bitrix\Sale\PaymentCollection::getList([
             'select' => ['ID'],
             'filter' => [
-                '=ORDER_ID' => $arOrder["ID"],
+                '=ORDER_ID' => $eposInvoiceGetRs->getOrderNumber(),
             ]
         ]);
-        while ($item = $dbPayment->fetch())
-        {
+        while ($item = $dbPayment->fetch()) {
             return $item["ID"];
         }
-        return ""; //check
+        throw new CMSGateException("Can not find payments for order[" . $eposInvoiceGetRs->getOrderNumber() . "]");
     }
 
     /**
@@ -95,31 +89,23 @@ class EposHandler extends CmsgateServiceHandler
      * @return PaySystem\ServiceResult
      * @throws Exception
      */
-    public function processRequest(Payment $payment, Request $request)
+    public function processRequestSafe(Payment $payment, Request $request)
     {
         $result = new PaySystem\ServiceResult();
-
-        try {
-            $controller = new ControllerEposCallbackBitrix();
-            $billInfoRs = $controller->process();
-            if ($billInfoRs != null) {
-                $fields = array(
-                    "PS_STATUS" => "Y",
-                    "PS_STATUS_CODE" => $billInfoRs->getResponseCode(),
-                    "PS_STATUS_DESCRIPTION" => $billInfoRs->getResponseMessage(),
-                    "PS_STATUS_MESSAGE" => "",
-                    "PS_SUM" => $billInfoRs->getAmount()->getValue(),
-                    "PS_CURRENCY" => $billInfoRs->getAmount()->getCurrency(),
-                    "PS_RESPONSE_DATE" => new DateTime(),
-                );
-                $result->setPsData($fields);
-            }
-            $result->setOperationType(PaySystem\ServiceResult::MONEY_COMING);
-        } catch (Throwable $e) {
-            Logger::getLogger("notify")->error("Exception:", $e);
-            $result->addError(new Error($e->getMessage()));
-        }
-
+        /** @var EposInvoiceGetRs $eposInvoiceGetRs */
+        $eposInvoiceGetRs = $_SESSION["epos_invoice_get_rs"];
+        CMSGateException::throwIfNull($eposInvoiceGetRs, "Epos invoice is not loaded");
+        $fields = array(
+            "PS_STATUS" => $eposInvoiceGetRs->isStatusPayed() ? "Y" : "N",
+            "PS_STATUS_CODE" => $eposInvoiceGetRs->getStatus(),
+            "PS_STATUS_DESCRIPTION" => $eposInvoiceGetRs->getResponseMessage(),
+            "PS_STATUS_MESSAGE" => "",
+            "PS_SUM" => $eposInvoiceGetRs->getAmount()->getValue(),
+            "PS_CURRENCY" => $eposInvoiceGetRs->getAmount()->getCurrency(),
+            "PS_RESPONSE_DATE" => new DateTime(),
+        );
+        $result->setPsData($fields);
+        $result->setOperationType(PaySystem\ServiceResult::MONEY_COMING);
         return $result;
     }
 

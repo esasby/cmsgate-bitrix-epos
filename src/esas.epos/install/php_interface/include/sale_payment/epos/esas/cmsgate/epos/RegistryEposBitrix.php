@@ -65,7 +65,7 @@ class RegistryEposBitrix extends RegistryEpos
     {
         return new ModuleDescriptor(
             "esas.epos",
-            new VersionDescriptor("1.10.0", "2020-06-02"),
+            new VersionDescriptor("1.10.1", "2020-06-03"),
             "Прием платежей через ЕРИП (сервис EPOS)",
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-bitrix-epos/browse",
             VendorDescriptor::esas(),
