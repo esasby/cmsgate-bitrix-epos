@@ -17,6 +17,9 @@
 ```/bitrix/modules/```
 После распаковки должна появиться папка 
 ```/bitrix/modules/esas.epos```
+1. Убедитесь, что у системы bitrix есть права на запись для директории
+```/bitrix/modules/esas.epos/install/php_interface/include/sale_payment/epos/vendor/esas/cmsgate-core/```
+Иначе может возникнуть Exception при создании директории с логами модуля
 1. Перейти на страницу _Marketplace > Установленные решения_ (/bitrix/admin/partner_modules.php)
 1. В контекстном меню решения esasby.hutkigrosh выбрать "Установить".
 
