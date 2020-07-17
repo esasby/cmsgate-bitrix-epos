@@ -12,8 +12,8 @@
   ],
   "require": {
     "php": ">= 5.6.0",
-    "esas/cmsgate-epos-lib": "~v1.10.0",
-    "esas/cmsgate-bitrix-lib": "~v1.10.0"
+    "esas/cmsgate-epos-lib": "~v1.11.0",
+    "esas/cmsgate-bitrix-lib": "~v1.11.0"
   },
   "authors": [
     {
@@ -23,12 +23,12 @@
     }
   ],
   "config": {
-    "vendor-dir": "src/esas.epos/install/php_interface/include/sale_payment/epos/vendor"
+    "vendor-dir": "src/esas.epos/install/php_interface/include/sale_payment/esas_epos/vendor"
   },
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Esas\\Hutkigrosh\\": ""
+      "Esas\\Epos\\": ""
     }
   }
 }
