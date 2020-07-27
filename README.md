@@ -53,7 +53,7 @@
 ### Внимание!
 1. Для автоматического обновления статуса заказа (после оплаты клиентом выставленного в ЕРИП счета) необходимо сообщить в службу технической поддержки сервиса «Хуткi Грош» адрес обработчика:
 ```
-http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esas_epos
+http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esas.epos
 ```
 2. Для корректной работы модуля необходимо включить библиотеку curl. Для подключения curl в bitrix копируем 20-curl.ini.disabled в 20-curl.ini
 
