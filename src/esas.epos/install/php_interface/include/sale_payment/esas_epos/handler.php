@@ -18,7 +18,7 @@ use esas\cmsgate\epos\controllers\ControllerEposCompletionPage;
 use esas\cmsgate\epos\protocol\EposInvoiceGetRs;
 use esas\cmsgate\Registry;
 use esas\cmsgate\utils\CMSGateException;
-use esas\epos\controllers\ControllerEposCallbackBitrix;
+use esas\cmsgate\epos\controllers\ControllerEposCallbackBitrix;
 use Exception;
 use Throwable;
 

@@ -11,7 +11,7 @@
 1. Введите в поиске _EPOS_
 1. Установите решение
 ### Ручная установка
-1. Загрузите архив модуля [esas.epos.zip](https://bitbucket.esas.by/projects/CG/repos/cmsgate-bitrix-epos/browse/esas.epos.zip)
+1. Загрузите архив модуля [esas.epos.zip](esas.epos.zip)
 (кодировка cp-1251) 
 1. Распакуйте архив в папку 
 ```/bitrix/modules/```

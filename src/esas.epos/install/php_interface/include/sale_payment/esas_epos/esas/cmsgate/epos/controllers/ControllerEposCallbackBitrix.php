@@ -1,6 +1,6 @@
 <?php
 
-namespace esas\epos\controllers;
+namespace esas\cmsgate\epos\controllers;
 
 use CSaleOrder;
 use esas\cmsgate\epos\controllers\ControllerEposCallback;
