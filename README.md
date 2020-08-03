@@ -55,7 +55,9 @@
 ```
 http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esas.epos
 ```
-2. Для корректной работы модуля необходимо включить библиотеку curl. Для подключения curl в bitrix копируем 20-curl.ini.disabled в 20-curl.ini
+1. Модуль ведет лог файл по пути _bitrix/php_interface/include/sale_payment/esas_epos/vendor/esas/cmsgate-core/logs/cmsgate.log_
+Для обеспечения **безопасности** необходимо убедиться, что в настройках http-сервера включена директива _AllowOverride All_ для корневой папки.
+1. Для корректной работы модуля необходимо включить библиотеку curl. Для подключения curl в bitrix копируем 20-curl.ini.disabled в 20-curl.ini
 
 ### Тестовые данные
 Для настрой оплаты в тестовом режиме:
