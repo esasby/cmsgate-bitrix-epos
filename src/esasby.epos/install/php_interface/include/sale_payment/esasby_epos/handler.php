@@ -26,7 +26,7 @@ use Throwable;
  * Имя класса обязательно должно совпадать с именем родительского каталога и значением в ACTION_FILE в БД (\esas\cmsgate\bitrix\CmsgateCModule::addPaysys)
  * @package Sale\Handlers\PaySystem
  */
-class esas_eposHandler extends CmsgateServiceHandler
+class esasby_eposHandler extends CmsgateServiceHandler
 {
     /**
      * @param Payment $payment

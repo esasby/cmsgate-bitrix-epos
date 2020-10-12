@@ -47,15 +47,15 @@
 
 ## Удаление модуля
 1. Для удаления модуля перейти на страницу _Marketplace > Установленные решения_ (/bitrix/admin/partner_modules.php)
-В контекстном меню решения esas.epos выбрать "Удалить". Затем "Стереть"
+В контекстном меню решения esasby.epos выбрать "Удалить". Затем "Стереть"
 1. Сохраните изменения
 
 ### Внимание!
 1. Для автоматического обновления статуса заказа (после оплаты клиентом выставленного в ЕРИП счета) необходимо сообщить в службу технической поддержки сервиса «Хуткi Грош» адрес обработчика:
 ```
-http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esas.epos
+http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esasby.hutkigrosh
 ```
-1. Модуль ведет лог файл по пути _bitrix/php_interface/include/sale_payment/esas_epos/vendor/esas/cmsgate-core/logs/cmsgate.log_
+1. Модуль ведет лог файл по пути _bitrix/php_interface/include/sale_payment/esasby_epos/vendor/esas/cmsgate-core/logs/cmsgate.log_
 Для обеспечения **безопасности** необходимо убедиться, что в настройках http-сервера включена директива _AllowOverride All_ для корневой папки.
 1. Для корректной работы модуля необходимо включить библиотеку curl. Для подключения curl в bitrix копируем 20-curl.ini.disabled в 20-curl.ini
 
@@ -64,6 +64,6 @@ http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esas.epos
  * воспользуйтесь данными для подключения к тестовой системе, полученными при регистрации в EPOS
  * включите в настройках модуля тестовый режим 
 
-_Разработано и протестировано с 1С-Битрикс: Управление сайтом 17.0.9_
+_Разработано и протестировано с 1С-Битрикс: Управление сайтом 20.5.x_
 
 
