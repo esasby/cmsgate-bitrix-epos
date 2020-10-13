@@ -53,7 +53,7 @@
 ### Внимание!
 1. Для автоматического обновления статуса заказа (после оплаты клиентом выставленного в ЕРИП счета) необходимо сообщить в службу технической поддержки сервиса «Хуткi Грош» адрес обработчика:
 ```
-http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esasby.hutkigrosh
+http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esasby.epos
 ```
 1. Модуль ведет лог файл по пути _bitrix/php_interface/include/sale_payment/esasby_epos/vendor/esas/cmsgate-core/logs/cmsgate.log_
 Для обеспечения **безопасности** необходимо убедиться, что в настройках http-сервера включена директива _AllowOverride All_ для корневой папки.
