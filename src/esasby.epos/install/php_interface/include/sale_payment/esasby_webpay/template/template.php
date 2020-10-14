@@ -6,3 +6,4 @@ Loc::loadMessages(__FILE__);
 
 $webpayForm = $params['webpayForm'];
 echo $webpayForm;
+echo "<br/>";
