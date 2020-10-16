@@ -8,6 +8,7 @@
 
 namespace esas\cmsgate\epos;
 
+use Bitrix\Main\Localization\Loc;
 use esas\cmsgate\CmsConnectorBitrix;
 use esas\cmsgate\descriptors\ModuleDescriptor;
 use esas\cmsgate\descriptors\VendorDescriptor;
@@ -66,10 +67,10 @@ class RegistryEposBitrix extends RegistryEpos
         return new ModuleDescriptor(
             "esasby.epos",
             new VersionDescriptor("1.12.2", "2020-10-15"),
-            "Прием платежей через ЕРИП (сервис EPOS)",
+            Loc::getMessage(AdminViewFields::ADMIN_PAYMENT_METHOD_NAME),
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-bitrix-epos/browse",
             VendorDescriptor::esas(),
-            "Выставление пользовательских счетов в ЕРИП"
+            Loc::getMessage(AdminViewFields::ADMIN_PAYMENT_METHOD_DESCRIPTION)
         );
     }
 
