@@ -12,7 +12,7 @@
 1. Установите решение
 ### Ручная установка
 1. Загрузите архив модуля [esasby.epos.zip](https://bitbucket.org/esasby/cmsgate-bitrix-epos/raw/master/esasby.epos.zip)
-(кодировка cp-1251) 
+(кодировка UTF-8) 
 1. Распакуйте архив в папку 
 ```/bitrix/modules/```
 После распаковки должна появиться папка 
@@ -21,7 +21,7 @@
 ```/bitrix/modules/esas.epos/install/php_interface/include/sale_payment/epos/vendor/esas/cmsgate-core/```
 Иначе может возникнуть Exception при создании директории с логами модуля
 1. Перейти на страницу _Marketplace > Установленные решения_ (/bitrix/admin/partner_modules.php)
-1. В контекстном меню решения esasby.hutkigrosh выбрать "Установить".
+1. В контекстном меню решения esasby.epos выбрать "Установить".
 
 ## Инструкция по настройке
 1. Перейти на страницу _Магазин > Настройки > Платежные системы_ (/bitrix/admin/sale_pay_system.php)
