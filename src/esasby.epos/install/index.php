@@ -2,6 +2,9 @@
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/esasby.epos/install/php_interface/include/sale_payment/esasby_epos/init.php");
 use esas\cmsgate\bitrix\CmsgateCModule;
 use esas\cmsgate\bitrix\CmsgatePaysystem;
+use esas\cmsgate\bitrix\InstallHelper;
+use esas\cmsgate\CmsConnectorBitrix;
+use esas\cmsgate\epos\EventHandlerEpos;
 use esas\cmsgate\Registry;
 
 if(class_exists('esasby_epos')) return;
@@ -27,10 +30,8 @@ class esasby_epos extends CModule
     public function __construct()
     {
         CModule::IncludeModule("sale");
-        $this->installHelper = (new CmsgateCModule())
-            ->addToInstallFilesList(CmsgateCModule::MODULE_SUB_PATH . "esasby_webpay")
-            ->addToInstallFilesList(CmsgateCModule::MODULE_IMAGES_SUB_PATH . "esasby_webpay.png");
-
+        $this->installHelper = new InstallHelper($this);
+        $this->installHelper->createAndAddMainPaySystem();
         $webpayPS = new CmsgatePaysystem();
         $webpayPS
             ->setName("Оплата картой")
@@ -39,44 +40,26 @@ class esasby_epos extends CModule
             ->setActionFile("esasby_webpay");
         $this->installHelper->addToInstallPaySystemsList($webpayPS);
 
-        $this->MODULE_PATH = $_SERVER['DOCUMENT_ROOT'] . '/bitrix' . CmsgateCModule::MODULE_SUB_PATH . $this->installHelper->getModuleActionName();
+        $this->MODULE_PATH = $_SERVER['DOCUMENT_ROOT'] . '/bitrix' . CmsgateCModule::MODULE_SUB_PATH . CmsConnectorBitrix::getInstance()->getModuleActionName();
         $this->MODULE_VERSION = Registry::getRegistry()->getModuleDescriptor()->getVersion()->getVersion();
         $this->MODULE_VERSION_DATE = Registry::getRegistry()->getModuleDescriptor()->getVersion()->getDate();
         $this->MODULE_NAME = Registry::getRegistry()->getModuleDescriptor()->getModuleFullName();
         $this->MODULE_DESCRIPTION = Registry::getRegistry()->getModuleDescriptor()->getModuleDescription();
-        $this->PARTNER_NAME = "esasby";
-        $this->PARTNER_URI = "esas.by";
-    }
-
-
-    function InstallDB($arParams = array())
-    {
-        return $this->installHelper->InstallDB($arParams);
-    }
-
-    function UnInstallDB($arParams = array())
-    {
-        return $this->installHelper->UnInstallDB($arParams);
+        $this->PARTNER_NAME = Registry::getRegistry()->getModuleDescriptor()->getVendor()->getFullName();
+        $this->PARTNER_URI = Registry::getRegistry()->getModuleDescriptor()->getVendor()->getUrl();
     }
 
     function InstallEvents()
     {
-        return $this->installHelper->InstallEvents();
+        //событие OnSaleOrderSetField не подходит, т.к. вызывается еще до момент сохранения новых данных в заказе, т.е. orderWrapper не может получить к ним доступ
+        $eventManager = \Bitrix\Main\EventManager::getInstance();
+        $eventManager->registerEventHandler('sale', 'OnSaleOrderSaved', Registry::getRegistry()->getModuleDescriptor()->getModuleMachineName(), EventHandlerEpos::class, 'onSaleOrderSaved');
     }
 
     function UnInstallEvents()
     {
-        return $this->installHelper->UnInstallEvents();
-    }
-
-    function InstallFiles($arParams = array())
-    {
-        return $this->installHelper->InstallFiles();
-    }
-
-    function UnInstallFiles()
-    {
-        return $this->installHelper->UnInstallFiles();
+        $eventManager = \Bitrix\Main\EventManager::getInstance();
+        $eventManager->unRegisterEventHandler('sale', 'OnSaleOrderSaved', Registry::getRegistry()->getModuleDescriptor()->getModuleMachineName(), EventHandlerEpos::class, 'onSaleOrderSaved');
     }
 
     function DoInstall()
