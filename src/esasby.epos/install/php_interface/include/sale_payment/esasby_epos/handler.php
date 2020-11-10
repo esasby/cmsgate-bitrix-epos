@@ -23,7 +23,7 @@ use Exception;
 use Throwable;
 
 /**
- * Имя класса обязательно должно совпадать с именем родительского каталога и значением в ACTION_FILE в БД (\esas\cmsgate\bitrix\CmsgateCModule::addPaysys)
+ * Имя класса обязательно должно совпадать с именем родительского каталога и значением в ACTION_FILE в БД (\esas\cmsgate\bitrix\InstallHelper::addPaysys)
  * @package Sale\Handlers\PaySystem
  */
 class esasby_eposHandler extends CmsgateServiceHandler

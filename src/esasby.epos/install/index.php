@@ -1,6 +1,5 @@
 <?
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/esasby.epos/install/php_interface/include/sale_payment/esasby_epos/init.php");
-use esas\cmsgate\bitrix\CmsgateCModule;
 use esas\cmsgate\bitrix\CmsgatePaysystem;
 use esas\cmsgate\bitrix\InstallHelper;
 use esas\cmsgate\CmsConnectorBitrix;
@@ -20,13 +19,10 @@ class esasby_epos extends CModule
     var $PARTNER_NAME;
     var $PARTNER_URI;
     /**
-     * @var \esas\cmsgate\bitrix\CmsgateCModule
+     * @var \esas\cmsgate\bitrix\InstallHelper
      */
     protected $installHelper;
 
-    /**
-     * CmsgateCModule constructor.
-     */
     public function __construct()
     {
         CModule::IncludeModule("sale");
@@ -40,7 +36,7 @@ class esasby_epos extends CModule
             ->setActionFile("esasby_webpay");
         $this->installHelper->addToInstallPaySystemsList($webpayPS);
 
-        $this->MODULE_PATH = $_SERVER['DOCUMENT_ROOT'] . '/bitrix' . CmsgateCModule::MODULE_SUB_PATH . CmsConnectorBitrix::getInstance()->getModuleActionName();
+        $this->MODULE_PATH = $_SERVER['DOCUMENT_ROOT'] . '/bitrix' . InstallHelper::MODULE_SUB_PATH . CmsConnectorBitrix::getInstance()->getModuleActionName();
         $this->MODULE_VERSION = Registry::getRegistry()->getModuleDescriptor()->getVersion()->getVersion();
         $this->MODULE_VERSION_DATE = Registry::getRegistry()->getModuleDescriptor()->getVersion()->getDate();
         $this->MODULE_NAME = Registry::getRegistry()->getModuleDescriptor()->getModuleFullName();
