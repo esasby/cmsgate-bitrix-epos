@@ -73,3 +73,11 @@ http://mydomen.my/bitrix/tools/sale_ps_result.php?handler=esasby.epos
 _Разработано и протестировано с 1С-Битрикс: Управление сайтом 20.5.x_
 
 
+### Сборка плагина
+```
+> composer global require humbug/php-scoper
+> hp-scoper add-prefix
+> composer dump-autoload --working-dir build --classmap-authoritativ
+```
+
+
