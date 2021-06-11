@@ -17,7 +17,7 @@ use esas\cmsgate\epos\controllers\ControllerEposWebpayForm;
 use esas\cmsgate\Registry;
 use Throwable;
 
-class esasby_webpayHandler extends esasby_eposHandler
+class esasby_epos_webpayHandler extends esasby_eposHandler
 {
     /**
      * @param Payment $payment

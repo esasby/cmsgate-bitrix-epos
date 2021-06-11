@@ -76,8 +76,8 @@ _Разработано и протестировано с 1С-Битрикс: �
 ### Сборка плагина
 ```
 > composer global require humbug/php-scoper
-> hp-scoper add-prefix
-> composer dump-autoload --working-dir build --classmap-authoritativ
+> php-scoper add-prefix
+> composer dump-autoload --working-dir build --classmap-authoritative
 ```
 
 

@@ -3,6 +3,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/esasby.epos/install/ph
 use esas\cmsgate\bitrix\CmsgatePaysystem;
 use esas\cmsgate\bitrix\InstallHelper;
 use esas\cmsgate\CmsConnectorBitrix;
+use esas\cmsgate\epos\ConfigFieldsEpos;
 use esas\cmsgate\epos\EventHandlerEpos;
 use esas\cmsgate\Registry;
 
@@ -30,10 +31,10 @@ class esasby_epos extends CModule
         $this->installHelper->createAndAddMainPaySystem();
         $webpayPS = new CmsgatePaysystem();
         $webpayPS
-            ->setName("Оплата картой")
-            ->setDescription("Онлайн оплата картой Visa, MasterCard, Белкарт")
+            ->setName(Registry::getRegistry()->getTranslator()->getConfigFieldDefault(ConfigFieldsEpos::paymentMethodNameWebpay()))
+            ->setDescription(Registry::getRegistry()->getTranslator()->getConfigFieldDefault(ConfigFieldsEpos::paymentMethodDetailsWebpay()))
             ->setType("ORDER")
-            ->setActionFile("esasby_webpay");
+            ->setActionFile("esasby_epos_webpay");
         $this->installHelper->addToInstallPaySystemsList($webpayPS);
 
         $this->MODULE_PATH = $_SERVER['DOCUMENT_ROOT'] . '/bitrix' . InstallHelper::MODULE_SUB_PATH . CmsConnectorBitrix::getInstance()->getModuleActionName();
@@ -41,6 +42,8 @@ class esasby_epos extends CModule
         $this->MODULE_VERSION_DATE = Registry::getRegistry()->getModuleDescriptor()->getVersion()->getDate();
         $this->MODULE_NAME = Registry::getRegistry()->getModuleDescriptor()->getModuleFullName();
         $this->MODULE_DESCRIPTION = Registry::getRegistry()->getModuleDescriptor()->getModuleDescription();
+        $this->PARTNER_NAME = "esasby"; // for bitrix marketplace
+        $this->PARTNER_URI = "esas.by"; // for bitrix marketplace
         $this->PARTNER_NAME = Registry::getRegistry()->getModuleDescriptor()->getVendor()->getFullName();
         $this->PARTNER_URI = Registry::getRegistry()->getModuleDescriptor()->getVendor()->getUrl();
     }
