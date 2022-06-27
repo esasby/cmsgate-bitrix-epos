@@ -6,10 +6,6 @@
 1. Библиотека Curl
 
 ## Инструкция по установке:
-### Автоматическая установка (через Marketplace) 
-1. Перейти на страницу _Marketplace > Каталог решений_
-1. Введите в поиске _EPOS_
-1. Установите решение
 ### Ручная установка
 1. Загрузите архив модуля [esasby.epos.zip](https://bitbucket.org/esasby/cmsgate-bitrix-epos/raw/master/esasby.epos.zip)
 (кодировка UTF-8) 
