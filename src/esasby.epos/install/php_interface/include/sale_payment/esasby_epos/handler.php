@@ -14,11 +14,11 @@ use Bitrix\Sale\PaySystem;
 use Bitrix\Sale\PaySystem\ServiceResult;
 use esas\cmsgate\bitrix\CmsgateServiceHandler;
 use esas\cmsgate\epos\controllers\ControllerEposAddInvoice;
-use esas\cmsgate\epos\controllers\ControllerEposCompletionPage;
+use esas\cmsgate\epos\controllers\ControllerEposCallback;
+use esas\cmsgate\epos\controllers\ControllerEposCompletionPanel;
 use esas\cmsgate\epos\protocol\EposInvoiceGetRs;
 use esas\cmsgate\Registry;
 use esas\cmsgate\utils\CMSGateException;
-use esas\cmsgate\epos\controllers\ControllerEposCallbackBitrix;
 use Exception;
 use Throwable;
 
@@ -45,7 +45,7 @@ class esasby_eposHandler extends CmsgateServiceHandler
                     $controller = new ControllerEposAddInvoice();
                     $controller->process($orderWrapper);
                 }
-                $controller = new ControllerEposCompletionPage();
+                $controller = new ControllerEposCompletionPanel();
                 $completionPanel = $controller->process($orderWrapper->getOrderId());
                 $extraParams['completionPanel'] = $completionPanel;
                 $this->setExtraParams($extraParams);
@@ -70,7 +70,7 @@ class esasby_eposHandler extends CmsgateServiceHandler
      */
     public function getPaymentIdFromRequestSafe(Request $request)
     {
-        $controller = new ControllerEposCallbackBitrix();
+        $controller = new ControllerEposCallback();
         $eposInvoiceGetRs = $controller->process();
         CMSGateException::throwIfNull($eposInvoiceGetRs, "Epos get invoice rs is null");
         $_SESSION["epos_invoice_get_rs"] = $eposInvoiceGetRs; // для корректной работы processRequest

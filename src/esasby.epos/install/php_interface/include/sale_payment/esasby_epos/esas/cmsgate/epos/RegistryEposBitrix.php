@@ -66,7 +66,7 @@ class RegistryEposBitrix extends RegistryEpos
     {
         return new ModuleDescriptor(
             "esasby.epos",
-            new VersionDescriptor("1.14.0", "2021-06-07"),
+            new VersionDescriptor("1.17.0", "2022-07-05"),
             Loc::getMessage('epos_module_name'),
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-bitrix-epos/browse",
             VendorDescriptor::esas(),
@@ -77,6 +77,11 @@ class RegistryEposBitrix extends RegistryEpos
     public function getCompletionPanel($orderWrapper)
     {
         return new CompletionPanelEposBitrix($orderWrapper);
+    }
+
+    public function createHooks()
+    {
+        return new HooksEposBitrix();
     }
 
 
