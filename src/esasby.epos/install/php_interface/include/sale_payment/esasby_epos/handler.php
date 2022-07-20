@@ -13,12 +13,14 @@ use Bitrix\Sale\Payment;
 use Bitrix\Sale\PaySystem;
 use Bitrix\Sale\PaySystem\ServiceResult;
 use esas\cmsgate\bitrix\CmsgateServiceHandler;
+use esas\cmsgate\CmsConnectorBitrix;
 use esas\cmsgate\epos\controllers\ControllerEposAddInvoice;
 use esas\cmsgate\epos\controllers\ControllerEposCallback;
 use esas\cmsgate\epos\controllers\ControllerEposCompletionPanel;
 use esas\cmsgate\epos\protocol\EposInvoiceGetRs;
 use esas\cmsgate\Registry;
 use esas\cmsgate\utils\CMSGateException;
+use esas\cmsgate\wrappers\OrderWrapperBitrix;
 use Exception;
 use Throwable;
 
@@ -38,10 +40,14 @@ class esasby_eposHandler extends CmsgateServiceHandler
     {
         if (Loader::includeModule(Registry::getRegistry()->getModuleDescriptor()->getModuleMachineName())) {
             try {
+                /**
+                 * @var OrderWrapperBitrix
+                 */
                 $orderWrapper = Registry::getRegistry()->getOrderWrapper($payment->getOrderId());
+                CmsConnectorBitrix::getInstance()->setCurrentPayment($payment);
                 // проверяем, привязан ли к заказу extId, если да,
                 // то счет не выставляем, а просто прорисовываем старницу
-                if (empty($orderWrapper->getExtId())) {
+                if (!$orderWrapper->isExtIdFilled()) {
                     $controller = new ControllerEposAddInvoice();
                     $controller->process($orderWrapper);
                 }

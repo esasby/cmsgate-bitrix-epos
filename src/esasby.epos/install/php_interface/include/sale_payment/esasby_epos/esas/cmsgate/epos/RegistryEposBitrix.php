@@ -54,6 +54,26 @@ class RegistryEposBitrix extends RegistryEpos
         return $configForm;
     }
 
+    public function getConfigFormWebpay()
+    {
+        $managedFields = $this->getManagedFieldsFactory()->getManagedFieldsExcept(AdminViewFields::CONFIG_FORM_COMMON,
+            [
+                ConfigFieldsEpos::shopName(),
+                ConfigFieldsEpos::paymentMethodName(),
+                ConfigFieldsEpos::paymentMethodDetails(),
+                ConfigFieldsEpos::qrcodeSection(),
+                ConfigFieldsEpos::instructionsSection(),
+                ConfigFieldsEpos::completionText(),
+                ConfigFieldsEpos::completionCssFile(),
+                ConfigFieldsEpos::paymentMethodDetailsWebpay(),
+                ConfigFieldsEpos::paymentMethodNameWebpay(),
+            ]);
+        $configForm = new ConfigFormBitrix(
+            AdminViewFields::CONFIG_FORM_COMMON,
+            $managedFields);
+        return $configForm;
+    }
+
     function getUrlWebpay($orderId)
     {
         global $APPLICATION;

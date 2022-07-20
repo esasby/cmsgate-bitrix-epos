@@ -12,6 +12,7 @@ use Bitrix\Main\Request;
 use Bitrix\Sale\Payment;
 use Bitrix\Sale\PaySystem;
 use Bitrix\Sale\PaySystem\ServiceResult;
+use esas\cmsgate\CmsConnectorBitrix;
 use esas\cmsgate\epos\controllers\ControllerEposAddInvoice;
 use esas\cmsgate\epos\controllers\ControllerEposWebpayForm;
 use esas\cmsgate\Registry;
@@ -30,9 +31,10 @@ class esasby_epos_webpayHandler extends esasby_eposHandler
         if (Loader::includeModule(Registry::getRegistry()->getModuleDescriptor()->getModuleMachineName())) {
             try {
                 $orderWrapper = Registry::getRegistry()->getOrderWrapperByOrderNumber($payment->getOrderId());
+                CmsConnectorBitrix::getInstance()->setCurrentPayment($payment);
                 // проверяем, привязан ли к заказу extId, если да,
                 // то счет не выставляем, а просто прорисовываем старницу
-                if (empty($orderWrapper->getExtId())) {
+                if (!$orderWrapper->isExtIdFilled()) {
                     $controller = new ControllerEposAddInvoice();
                     $controller->process($orderWrapper);
                 }

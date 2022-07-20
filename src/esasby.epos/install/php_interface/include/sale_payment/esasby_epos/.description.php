@@ -8,5 +8,5 @@ require_once('init.php');
 
 // $arPSCorrespondence - старый формат описания настроек, $data - новый
 $data = Registry::getRegistry()->getConfigForm()->generate();
-$description = ConfigFormBitrix::generateModuleDescription();
+$description = ConfigFormBitrix::generateModuleDescription()->__toString();
 
